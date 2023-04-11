@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1062416214294",
+    "firebase_url": "https://mobiletracking-be889.firebaseio.com",
+    "project_id": "mobiletracking-be889",
+    "storage_bucket": "mobiletracking-be889.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062416214294:android:137fca75062acee6",
+        "android_client_info": {
+          "package_name": "com.finalyear.mobiletracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062416214294-nahcnacll9tttf09bmefku5tveq9klr3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.finalyear.mobiletracking",
+            "certificate_hash": "ad9eb26fc20c6123bee39ecfe3cd12cf34809815"
+          }
+        },
+        {
+          "client_id": "1062416214294-gk3bo4sd0pfu8vudi35ekhup6a6iqr2j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb-zsDjd0Dy2kYolfspJ1KkNm5mqENVnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062416214294-gk3bo4sd0pfu8vudi35ekhup6a6iqr2j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
