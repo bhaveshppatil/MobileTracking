@@ -1,21 +1,24 @@
 package com.finalyear.mobiletracking.activities;
 
+import static com.finalyear.mobiletracking.utils.IConstants.KEY_MOBILE_TRAKING;
+import static com.finalyear.mobiletracking.utils.IConstants.LOCATION_DETAILS;
+
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.finalyear.mobiletracking.R;
 import com.finalyear.mobiletracking.adapter.LocationsListAdapter;
 import com.finalyear.mobiletracking.model.UserLocationModel;
-import com.finalyear.mobiletracking.sharePref.SessionRepository;
 import com.finalyear.mobiletracking.utils.CustomMultiColorProgressBar;
 import com.finalyear.mobiletracking.utils.DialogUtils;
 import com.google.firebase.database.DataSnapshot;
@@ -26,17 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import static com.finalyear.mobiletracking.utils.IConstants.KEY_MOBILE_TRAKING;
-import static com.finalyear.mobiletracking.utils.IConstants.LOCATION_DETAILS;
-
 public class DetailsLocationsListActivity extends AppCompatActivity {
-    public static void start(Context context, String mob_no,ArrayList<UserLocationModel> aryListUserLocationModels) {
-        Intent starter = new Intent(context, DetailsLocationsListActivity.class);
-        starter.putExtra("KEY_MOBILE_NO", mob_no);
-        starter.putParcelableArrayListExtra("KEY_LOC_LIST",aryListUserLocationModels);
-        context.startActivity(starter);
-    }
-
     private RecyclerView rv_location_list;
     private TextView txt_android_os;
     private TextView txt_device_name;
@@ -50,6 +43,13 @@ public class DetailsLocationsListActivity extends AppCompatActivity {
     private int childCount;
     private LinearLayout ll_user_details;
 
+    public static void start(Context context, String mob_no, ArrayList<UserLocationModel> aryListUserLocationModels) {
+        Intent starter = new Intent(context, DetailsLocationsListActivity.class);
+        starter.putExtra("KEY_MOBILE_NO", mob_no);
+        starter.putParcelableArrayListExtra("KEY_LOC_LIST", aryListUserLocationModels);
+        context.startActivity(starter);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,16 +61,15 @@ public class DetailsLocationsListActivity extends AppCompatActivity {
     private void init() {
         strMobileNo = getIntent().getStringExtra("KEY_MOBILE_NO");
         aryListUserLocationModels = getIntent().getParcelableArrayListExtra("KEY_LOC_LIST");
-        rv_location_list=findViewById(R.id.rv_location_list);
-        rv_location_list.setNestedScrollingEnabled(false);
-                txt_android_os=findViewById(R.id.txt_android_os);
-        txt_device_name=findViewById(R.id.txt_device_name);
-                txt_mobile_no=findViewById(R.id.txt_mobile_no);
-        txt_user_name=findViewById(R.id.txt_user_name);
-        ll_user_details=findViewById(R.id.ll_user_details);
-        if(aryListUserLocationModels==null){
+        rv_location_list = findViewById(R.id.rv_location_list);
+        txt_android_os = findViewById(R.id.txt_android_os);
+        txt_device_name = findViewById(R.id.txt_device_name);
+        txt_mobile_no = findViewById(R.id.txt_mobile_no);
+        txt_user_name = findViewById(R.id.txt_user_name);
+        ll_user_details = findViewById(R.id.ll_user_details);
+        if (aryListUserLocationModels == null) {
             callToGetUserLocations();
-        }else{
+        } else {
             setLocationDetails();
         }
 
@@ -81,10 +80,8 @@ public class DetailsLocationsListActivity extends AppCompatActivity {
         progressBar = new CustomMultiColorProgressBar(DetailsLocationsListActivity.this, "Please Wait");
         progressBar.showProgressBar();
         aryListUserLocationModels = new ArrayList<>();
-        childCount=0;
+        childCount = 0;
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child(KEY_MOBILE_TRAKING).child(LOCATION_DETAILS).child(strMobileNo);
-
-
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -96,7 +93,7 @@ public class DetailsLocationsListActivity extends AppCompatActivity {
                     aryListUserLocationModels.add(post);
 
                 }
-                if(childCount==snapshot.getChildrenCount()) {
+                if (childCount == snapshot.getChildrenCount()) {
                     setLocationDetails();
                 }
             }
@@ -111,19 +108,19 @@ public class DetailsLocationsListActivity extends AppCompatActivity {
     }
 
     private void setLocationDetails() {
-        if(progressBar!=null&&progressBar.isShowing()) {
+        if (progressBar != null && progressBar.isShowing()) {
             progressBar.hideProgressBar();
         }
-        if(aryListUserLocationModels.isEmpty()){
-            DialogUtils.showWarningDialog(this,"Location details not found");
+        if (aryListUserLocationModels.isEmpty()) {
+            DialogUtils.showWarningDialog(this, "Location details not found");
             ll_user_details.setVisibility(View.GONE);
-        }else{
+        } else {
             ll_user_details.setVisibility(View.VISIBLE);
             txt_user_name.setText(aryListUserLocationModels.get(0).getUserName());
             txt_mobile_no.setText(aryListUserLocationModels.get(0).getMobNumber());
             txt_device_name.setText(aryListUserLocationModels.get(0).getDeviceName());
             txt_android_os.setText(aryListUserLocationModels.get(0).getAndroidOs());
-            LocationsListAdapter locationsListAdapter = new LocationsListAdapter(this,aryListUserLocationModels);
+            LocationsListAdapter locationsListAdapter = new LocationsListAdapter(this, aryListUserLocationModels);
             LinearLayoutManager manager = new LinearLayoutManager(this);
             rv_location_list.setLayoutManager(manager);
             rv_location_list.setAdapter(locationsListAdapter);

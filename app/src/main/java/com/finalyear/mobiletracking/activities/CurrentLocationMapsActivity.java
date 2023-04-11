@@ -10,12 +10,11 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.finalyear.mobiletracking.R;
 import com.finalyear.mobiletracking.utils.CustomMultiColorProgressBar;
@@ -41,17 +40,17 @@ public class CurrentLocationMapsActivity extends FragmentActivity implements OnM
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    public static void start(Context context) {
-        Intent starter = new Intent(context, CurrentLocationMapsActivity.class);
-        context.startActivity(starter);
-    }
-
-    private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
+    private GoogleMap mMap;
     private CustomMultiColorProgressBar progressBar;
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, CurrentLocationMapsActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,13 +115,14 @@ public class CurrentLocationMapsActivity extends FragmentActivity implements OnM
                 .build();
         mGoogleApiClient.connect();
     }
+
     @Override
     public void onConnected(Bundle bundle) {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-      // mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        // mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -130,9 +130,11 @@ public class CurrentLocationMapsActivity extends FragmentActivity implements OnM
                     mLocationRequest, this);
         }
     }
+
     @Override
     public void onConnectionSuspended(int i) {
     }
+
     @Override
     public void onLocationChanged(Location location) {
         //hideProgressDialog();
@@ -146,7 +148,6 @@ public class CurrentLocationMapsActivity extends FragmentActivity implements OnM
         markerOptions.position(latLng);
         LocationManager locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
-        ;
 
 //
         String provider = locationManager.getBestProvider(new Criteria(), true);
@@ -168,38 +169,38 @@ public class CurrentLocationMapsActivity extends FragmentActivity implements OnM
                         longitude, 2);
                 if (null != listAddresses && listAddresses.size() > 0) {
                     StringBuilder stringBuilder = new StringBuilder();
-                        if(listAddresses.get(0).getLocality()!=null&&!listAddresses.get(0).getLocality().isEmpty()){
-                            stringBuilder.append(listAddresses.get(0).getLocality()).append(",");
-                        }else if(listAddresses.size()>1){
-                            if(listAddresses.get(1).getLocality()!=null&&!listAddresses.get(1).getLocality().isEmpty()){
-                                stringBuilder.append(listAddresses.get(1).getLocality()).append(",");
-                            }
+                    if (listAddresses.get(0).getLocality() != null && !listAddresses.get(0).getLocality().isEmpty()) {
+                        stringBuilder.append(listAddresses.get(0).getLocality()).append(",");
+                    } else if (listAddresses.size() > 1) {
+                        if (listAddresses.get(1).getLocality() != null && !listAddresses.get(1).getLocality().isEmpty()) {
+                            stringBuilder.append(listAddresses.get(1).getLocality()).append(",");
                         }
+                    }
 
-                        if(listAddresses.get(0).getFeatureName()!=null&&!listAddresses.get(0).getFeatureName().isEmpty()){
+                    if (listAddresses.get(0).getFeatureName() != null && !listAddresses.get(0).getFeatureName().isEmpty()) {
 
-                            stringBuilder.append(listAddresses.get(0).getFeatureName()).append(",");
-                        }
+                        stringBuilder.append(listAddresses.get(0).getFeatureName()).append(",");
+                    }
 
-                    if(listAddresses.get(0).getAdminArea()!=null&&!listAddresses.get(0).getAdminArea().isEmpty()){
+                    if (listAddresses.get(0).getAdminArea() != null && !listAddresses.get(0).getAdminArea().isEmpty()) {
                         stringBuilder.append(listAddresses.get(0).getAdminArea()).append(",");
-                    }else if(listAddresses.size()>1){
-                        if(listAddresses.get(1).getAdminArea()!=null&&!listAddresses.get(1).getAdminArea().isEmpty()){
+                    } else if (listAddresses.size() > 1) {
+                        if (listAddresses.get(1).getAdminArea() != null && !listAddresses.get(1).getAdminArea().isEmpty()) {
                             stringBuilder.append(listAddresses.get(1).getAdminArea()).append(",");
                         }
                     }
 
-                        if(listAddresses.get(0).getPostalCode()!=null&&!listAddresses.get(0).getPostalCode().isEmpty()){
+                    if (listAddresses.get(0).getPostalCode() != null && !listAddresses.get(0).getPostalCode().isEmpty()) {
 
-                            stringBuilder.append(listAddresses.get(0).getPostalCode()).append(",");
-                        }
-                        if(listAddresses.get(0).getCountryName()!=null&&!listAddresses.get(0).getCountryName().isEmpty()){
+                        stringBuilder.append(listAddresses.get(0).getPostalCode()).append(",");
+                    }
+                    if (listAddresses.get(0).getCountryName() != null && !listAddresses.get(0).getCountryName().isEmpty()) {
 
-                            stringBuilder.append(listAddresses.get(0).getCountryName());
-                        }
+                        stringBuilder.append(listAddresses.get(0).getCountryName());
+                    }
 
-                        markerOptions.title( stringBuilder.toString()
-                            );
+                    markerOptions.title(stringBuilder.toString()
+                    );
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -216,12 +217,13 @@ public class CurrentLocationMapsActivity extends FragmentActivity implements OnM
         }
         hideProgressDialog();
     }
+
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         hideProgressDialog();
     }
 
-    private void hideProgressDialog(){
+    private void hideProgressDialog() {
 
         if (progressBar.isShowing()) {
             progressBar.hideProgressBar();

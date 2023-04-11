@@ -1,13 +1,14 @@
 package com.finalyear.mobiletracking.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.finalyear.mobiletracking.R;
 import com.finalyear.mobiletracking.interfaces.DashboardItemClickListener;
@@ -17,12 +18,12 @@ import java.util.ArrayList;
 
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewsHolder> {
-    private Context mContext;
-    private ArrayList<DashboardMenuModel> dashboardMenuModels;
-    private DashboardItemClickListener listener;
+    private final Context mContext;
+    private final ArrayList<DashboardMenuModel> dashboardMenuModels;
+    private final DashboardItemClickListener listener;
 
-    public DashboardAdapter(Context mContext,ArrayList<DashboardMenuModel> dashboardMenuModels,DashboardItemClickListener listener) {
-        this.mContext=mContext;
+    public DashboardAdapter(Context mContext, ArrayList<DashboardMenuModel> dashboardMenuModels, DashboardItemClickListener listener) {
+        this.mContext = mContext;
         this.dashboardMenuModels = dashboardMenuModels;
         this.listener = listener;
     }
@@ -30,7 +31,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
     @NonNull
     @Override
     public ViewsHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewsHolder(LayoutInflater.from(mContext).inflate(R.layout.rv_item_dashboard,viewGroup,false));
+        return new ViewsHolder(LayoutInflater.from(mContext).inflate(R.layout.rv_item_dashboard, viewGroup, false));
     }
 
     @Override
@@ -49,6 +50,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         TextView txt_name;
         ImageView iv_icon;
         DashboardMenuModel item;
+
         public ViewsHolder(@NonNull View itemView) {
             super(itemView);
             txt_name = itemView.findViewById(R.id.txt_name);
@@ -58,7 +60,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
         @Override
         public void onClick(View view) {
-            if(listener!=null){
+            if (listener != null) {
                 listener.onItemClick(item.getPos());
             }
         }

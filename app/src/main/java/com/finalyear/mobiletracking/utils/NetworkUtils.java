@@ -1,5 +1,3 @@
-
-
 package com.finalyear.mobiletracking.utils;
 
 import android.content.Context;

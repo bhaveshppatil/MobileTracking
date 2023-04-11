@@ -10,17 +10,16 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.finalyear.mobiletracking.R;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.finalyear.mobiletracking.R;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -77,13 +76,12 @@ public class CommonUtils {
         return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void  setStatusBarColor(AppCompatActivity context){
+    public static void setStatusBarColor(AppCompatActivity context) {
         Window window = context.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(context.getResources().getColor(R.color.colorPrimaryDark));
 
     }
-
 
 
     public static String amountFormatter(long amt){
@@ -248,7 +246,7 @@ public class CommonUtils {
 
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss aa");
-            String formattedDate = dateFormat.format(new Date()).toString();
+            String formattedDate = dateFormat.format(new Date());
             System.out.println(formattedDate);
             return formattedDate;
         } catch (Exception e) {
@@ -266,7 +264,7 @@ public class CommonUtils {
             e.printStackTrace();
             return Calendar.getInstance().getTime().toString();
         }
-        return strDate+"|"+String.valueOf(Calendar.getInstance().getTimeInMillis());
+        return strDate+"|"+ Calendar.getInstance().getTimeInMillis();
     }
 
 }

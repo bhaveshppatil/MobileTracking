@@ -1,5 +1,7 @@
 package com.finalyear.mobiletracking.activities;
 
+import static android.os.Build.VERSION.SDK_INT;
+
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -8,45 +10,41 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.finalyear.mobiletracking.BuildConfig;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.finalyear.mobiletracking.R;
 import com.finalyear.mobiletracking.adapter.DashboardAdapter;
 import com.finalyear.mobiletracking.broadcast_receiver.TrackingBroadcastReceiver;
 import com.finalyear.mobiletracking.interfaces.DashboardItemClickListener;
+import com.finalyear.mobiletracking.model.DashboardMenuModel;
 import com.finalyear.mobiletracking.sharePref.SessionRepository;
 import com.finalyear.mobiletracking.utils.DialogUtils;
 import com.finalyear.mobiletracking.utils.IConstants;
 import com.finalyear.mobiletracking.utils.NetworkUtils;
-import com.finalyear.mobiletracking.model.DashboardMenuModel;
 import com.finalyear.mobiletracking.utils.Utils;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 
 import java.util.ArrayList;
 
-import static android.os.Build.VERSION.SDK_INT;
-
 public class DashboardActivity extends AppCompatActivity implements DashboardItemClickListener, View.OnClickListener {
+    private TextView txt_user_name,
+            txt_location;
+    private ImageView iv_admin, iv_contact_us, iv_logout;
+
     public static void start(Context context) {
         Intent starter = new Intent(context, DashboardActivity.class);
         starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(starter);
     }
-
-    private TextView txt_user_name,
-            txt_location;
-    private ImageView iv_admin,iv_contact_us,iv_logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,20 +57,19 @@ public class DashboardActivity extends AppCompatActivity implements DashboardIte
     private void init() {
         txt_user_name = findViewById(R.id.txt_user_name);
         txt_location = findViewById(R.id.txt_location);
-        iv_admin=findViewById(R.id.iv_admin);
-        iv_contact_us=findViewById(R.id.iv_contact_us);
-        iv_logout=findViewById(R.id.iv_logout);
+        iv_admin = findViewById(R.id.iv_admin);
+        iv_contact_us = findViewById(R.id.iv_contact_us);
+        iv_logout = findViewById(R.id.iv_logout);
         iv_admin.setOnClickListener(this);
         iv_contact_us.setOnClickListener(this);
         iv_logout.setOnClickListener(this);
-        if(IConstants.IS_ADMIN_LOGIN){
+        if (IConstants.IS_ADMIN_LOGIN) {
             iv_admin.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             iv_admin.setVisibility(View.GONE);
         }
         txt_user_name.setText(SessionRepository.getInstance().getName());
         setTrackingLocDashboardListItems();
-        setNearestLocDashboardListItems();
         if (!SessionRepository.getInstance().getCurrentLocation().equalsIgnoreCase("na")) {
             txt_location.setText(SessionRepository.getInstance().getCurrentLocation());
         }
@@ -83,23 +80,10 @@ public class DashboardActivity extends AppCompatActivity implements DashboardIte
 
     private void setTrackingLocDashboardListItems() {
         ArrayList<DashboardMenuModel> dashboardMenuModels = new ArrayList<>();
-        dashboardMenuModels.add(new DashboardMenuModel("Current Location", R.drawable.ic_current_location, 1));
-        dashboardMenuModels.add(new DashboardMenuModel("Share Location", R.drawable.ic_share_loc, 2));
-        dashboardMenuModels.add(new DashboardMenuModel("Track Location", R.drawable.ic_track_location, 3));
+        dashboardMenuModels.add(new DashboardMenuModel("Current Location", R.drawable.location, 1));
+        dashboardMenuModels.add(new DashboardMenuModel("Share Location", R.drawable.send, 2));
+        dashboardMenuModels.add(new DashboardMenuModel("Track Location", R.drawable.track, 3));
         RecyclerView rvDashboard = findViewById(R.id.rv_dashboard_tracking);
-        rvDashboard.setNestedScrollingEnabled(false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-        DashboardAdapter adapter = new DashboardAdapter(this, dashboardMenuModels, this);
-        rvDashboard.setLayoutManager(gridLayoutManager);
-        rvDashboard.setAdapter(adapter);
-    }
-
-    private void setNearestLocDashboardListItems() {
-        ArrayList<DashboardMenuModel> dashboardMenuModels = new ArrayList<>();
-        dashboardMenuModels.add(new DashboardMenuModel("Restaurents", R.drawable.ic_restaurant, 4));
-        dashboardMenuModels.add(new DashboardMenuModel("Hospitals", R.drawable.ic_local_hospital, 5));
-        dashboardMenuModels.add(new DashboardMenuModel("Schools & Colleges", R.drawable.ic_school, 6));
-        RecyclerView rvDashboard = findViewById(R.id.rv_dashboard_nearest_locations);
         rvDashboard.setNestedScrollingEnabled(false);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         DashboardAdapter adapter = new DashboardAdapter(this, dashboardMenuModels, this);
@@ -119,7 +103,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardIte
             public void onGranted() {
                 CheckGpsStatus();
                 // Toast.makeText(MainActivity.this, "Location granted.", Toast.LENGTH_SHORT).show();
-                if (Utils.getDeviceIMEINumber(DashboardActivity.this).equalsIgnoreCase(SessionRepository.getInstance().getIMEI_NO())) {
+                if (Utils.getDeviceId(DashboardActivity.this).equalsIgnoreCase(SessionRepository.getInstance().getIMEI_NO())) {
 
                     getLocationInBg();
                 }
@@ -153,21 +137,15 @@ public class DashboardActivity extends AppCompatActivity implements DashboardIte
     @Override
     public void onItemClick(int pos) {
         if (NetworkUtils.isNetworkConnected(this)) {
-            if(CheckGpsStatus()) {
+            if (CheckGpsStatus()) {
                 if (pos == 1) {//current location
                     CurrentLocationMapsActivity.start(this);
                 } else if (pos == 2) {//share
                     ShareLocationActivity.start(this);
                 } else if (pos == 3) {//track location
                     LocationTrackerActivity.start(this);
-                } else if (pos == 4) {
-                   NearestLocationsActivity.start(this, 4);//Restaurents
-                } else if (pos == 5) {
-                    NearestLocationsActivity.start(this, 5);//Hosptials
-                } else if (pos == 6) {
-                    NearestLocationsActivity.start(this, 6);//Schools
                 }
-            }else{
+            } else {
                 showGPSDisabledAlertToUser();
             }
         } else {
@@ -175,7 +153,6 @@ public class DashboardActivity extends AppCompatActivity implements DashboardIte
         }
 
     }
-
 
 
     private boolean CheckGpsStatus() {
@@ -190,7 +167,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardIte
     private void showGPSDisabledAlertToUser() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Please click on 'Allow' button to activate" +
-                " location setting and select mode 'High Accuracy'")
+                        " location setting and select mode 'High Accuracy'")
                 .setCancelable(false)
                 .setPositiveButton("Allow",
                         new DialogInterface.OnClickListener() {
@@ -206,24 +183,23 @@ public class DashboardActivity extends AppCompatActivity implements DashboardIte
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_admin:
-             AdminActivity.start(this);
-               break;
+                AdminActivity.start(this);
+                break;
             case R.id.iv_contact_us:
                 ContactUsActivity.start(this);
                 break;
-
             case R.id.iv_logout:
-               handleLogout();
+                handleLogout();
                 break;
         }
     }
 
     private void handleLogout() {
         SessionRepository.getInstance().storeLogoutSession(false);
-        Intent intent = new Intent(DashboardActivity.this,LoginActivity.class);
+        Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-         startActivity(intent);
+        startActivity(intent);
     }
 }

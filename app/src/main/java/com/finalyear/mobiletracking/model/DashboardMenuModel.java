@@ -1,9 +1,9 @@
 package com.finalyear.mobiletracking.model;
 
 public class DashboardMenuModel {
-    private String menuName;
-    private int icon;
-    private int pos;
+    private final String menuName;
+    private final int icon;
+    private final int pos;
 
     public DashboardMenuModel(String menuName, int icon, int pos) {
         this.menuName = menuName;

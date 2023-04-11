@@ -1,4 +1,3 @@
-
 package com.finalyear.mobiletracking.broadcast_receiver;
 
 import android.app.AlarmManager;
@@ -14,14 +13,6 @@ public class TrackingBroadcastReceiver extends BroadcastReceiver {
 
     public static final String CUSTOM_INTENT = "com.mobiletracking.intent.action.ALARM";
 
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        /* enqueue the job */
-        TrackingJobIntentService.enqueueWork(context, intent);
-    }
-
-
     public static void cancelAlarm() {
         AlarmManager alarm = (AlarmManager) MobileTrackingApp.context.getSystemService(Context.ALARM_SERVICE);
 
@@ -29,10 +20,9 @@ public class TrackingBroadcastReceiver extends BroadcastReceiver {
         alarm.cancel(getPendingIntent());
     }
 
-
     public static void setAlarm(boolean force) {
         cancelAlarm();
-        AlarmManager alarm = (AlarmManager)  MobileTrackingApp.context.getSystemService(Context.ALARM_SERVICE);        // EVERY X MINUTES
+        AlarmManager alarm = (AlarmManager) MobileTrackingApp.context.getSystemService(Context.ALARM_SERVICE);        // EVERY X MINUTES
         long delay = (1000 * 60 * 4);
         long when = System.currentTimeMillis();
         if (!force) {
@@ -49,5 +39,11 @@ public class TrackingBroadcastReceiver extends BroadcastReceiver {
         alarmIntent.setAction(CUSTOM_INTENT);
 
         return PendingIntent.getBroadcast(MobileTrackingApp.context, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        /* enqueue the job */
+        TrackingJobIntentService.enqueueWork(context, intent);
     }
 }

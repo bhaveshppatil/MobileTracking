@@ -1,5 +1,7 @@
 package com.finalyear.mobiletracking.broadcast_receiver;
 
+import static android.os.Build.VERSION.SDK_INT;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -8,11 +10,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.widget.Toast;
 
-import com.finalyear.mobiletracking.background_service.TrackingJobIntentService;
 import com.finalyear.mobiletracking.sharePref.SessionRepository;
 import com.finalyear.mobiletracking.utils.Utils;
-
-import static android.os.Build.VERSION.SDK_INT;
 
 public class BootCompleteBroadcastReceiver extends BroadcastReceiver {
 
@@ -21,14 +20,14 @@ public class BootCompleteBroadcastReceiver extends BroadcastReceiver {
 //        if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
         //TrackingJobIntentService.enqueueWork(context, intent);
         getLocationInBg(context);
-       Toast.makeText(context, "Called", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Called", Toast.LENGTH_LONG).show();
 //        Log.i("Calledddd","Test");
 //        }
     }
 
     private void getLocationInBg(Context context) {
         String devIMEINo = SessionRepository.getInstance().getIMEI_NO();
-        String currentIMEI = Utils.getDeviceIMEINumber(context);
+        String currentIMEI = Utils.getDeviceId(context);
 
         if (devIMEINo != null && currentIMEI != null) {
 

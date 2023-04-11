@@ -1,7 +1,6 @@
 package com.finalyear.mobiletracking.activities;
 
 import android.Manifest;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,27 +12,19 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.finalyear.mobiletracking.BuildConfig;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
 import com.finalyear.mobiletracking.R;
-import com.finalyear.mobiletracking.utils.CommonUtils;
 import com.finalyear.mobiletracking.utils.CustomMultiColorProgressBar;
-import com.finalyear.mobiletracking.utils.Utils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -48,11 +39,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,19 +47,19 @@ public class ShareLocationActivity extends FragmentActivity implements OnMapRead
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener, View.OnClickListener {
 
-    public static void start(Context context) {
-        Intent starter = new Intent(context, ShareLocationActivity.class);
-        context.startActivity(starter);
-    }
-
-    private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
-    private CustomMultiColorProgressBar progressBar;
-    com.github.clans.fab.FloatingActionButton fab_addr,fab_screen_shot;
+    com.github.clans.fab.FloatingActionButton fab_addr, fab_screen_shot;
     String address;
+    private GoogleMap mMap;
+    private CustomMultiColorProgressBar progressBar;
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, ShareLocationActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +90,8 @@ public class ShareLocationActivity extends FragmentActivity implements OnMapRead
     public void onMapReady(GoogleMap googleMap) {
         try {
 
-         fab_addr =findViewById(R.id.fab_addr);
-            fab_screen_shot =findViewById(R.id.fab_screen_shot);
+            fab_addr = findViewById(R.id.fab_addr);
+            fab_screen_shot = findViewById(R.id.fab_screen_shot);
             fab_addr.setOnClickListener(this);
             fab_screen_shot.setOnClickListener(this);
             mMap = googleMap;
@@ -175,7 +162,6 @@ public class ShareLocationActivity extends FragmentActivity implements OnMapRead
         markerOptions.position(latLng);
         LocationManager locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
-        ;
 
 //
         String provider = locationManager.getBestProvider(new Criteria(), true);
@@ -232,7 +218,7 @@ public class ShareLocationActivity extends FragmentActivity implements OnMapRead
                     markerOptions.title(stringBuilder.toString()
 
                     );
-                    address=stringBuilder.toString();
+                    address = stringBuilder.toString();
                     markerOptions.icon(BitmapDescriptorFactory.fromBitmap(createCustomMapMarker(stringBuilder.toString())));
                     mCurrLocationMarker = mMap.addMarker(markerOptions);
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -262,9 +248,10 @@ public class ShareLocationActivity extends FragmentActivity implements OnMapRead
             progressBar.hideProgressBar();
         }
     }
+
     public Bitmap createCustomMapMarker(String tile) {
 
-        LayoutInflater mInflater = (LayoutInflater)ShareLocationActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater mInflater = (LayoutInflater) ShareLocationActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         //Inflate the layout into a view and configure it the way you like
         LinearLayout view = new LinearLayout(ShareLocationActivity.this);
@@ -302,7 +289,6 @@ public class ShareLocationActivity extends FragmentActivity implements OnMapRead
     }
 
 
-
     private void shareScreenshot() {
         Double latitude = mLastLocation.getLatitude();
         Double longitude = mLastLocation.getLongitude();
@@ -324,7 +310,6 @@ public class ShareLocationActivity extends FragmentActivity implements OnMapRead
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, address);
         startActivity(Intent.createChooser(sharingIntent, "Share Address Using"));
     }
-
 
 
 //    public void captureScreen()
@@ -376,7 +361,7 @@ public class ShareLocationActivity extends FragmentActivity implements OnMapRead
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.fab_screen_shot:
                 shareScreenshot();
                 break;

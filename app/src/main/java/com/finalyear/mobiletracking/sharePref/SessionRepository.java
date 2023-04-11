@@ -1,8 +1,6 @@
 package com.finalyear.mobiletracking.sharePref;
 
 
-
-
 /**
  * Created by Rohit on 1/9/18.
  */
@@ -39,6 +37,7 @@ public class SessionRepository {
     public String getName() {
         return SharedPrefs.getInstance().getString(MR_NAME, "na");
     }
+
     public void storeIMEI_NO(String unique_code) {
         SharedPrefs.getInstance().addString(IMEI_NO, unique_code);
 
@@ -57,6 +56,7 @@ public class SessionRepository {
     public String getDeviceName() {
         return SharedPrefs.getInstance().getString(DEVICE_NAME, "na");
     }
+
     public void storeEmailId(String email_id) {
         SharedPrefs.getInstance().addString(MR_EMAIL_ID, email_id);
 
@@ -83,6 +83,7 @@ public class SessionRepository {
     public String getCurrentLocation() {
         return SharedPrefs.getInstance().getString(CURRENT_LOCATION, "na");
     }
+
     public void storeRegistrastionDate(String regDate) {
         SharedPrefs.getInstance().addString(REGISTR_DATE, regDate);
 

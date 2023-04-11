@@ -23,15 +23,13 @@ public class SqLiteDBHelper extends SQLiteOpenHelper {
     //WHEN TB IS CREATED
     @Override
     public void onCreate(SQLiteDatabase db) {
-        try
-        {
+        try {
             db.execSQL(DBConstants.CREATE_TB);
             Logger.addLog(DBConstants.CREATE_TB);
 
-        }catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
-            Logger.addLog(DBConstants.CREATE_TB+"  : "+e.getMessage());
+            Logger.addLog(DBConstants.CREATE_TB + "  : " + e.getMessage());
         }
 
     }
@@ -39,17 +37,15 @@ public class SqLiteDBHelper extends SQLiteOpenHelper {
     //UPGRADE TB
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " +DBConstants.TB_NAME_LOC_UPDATES);
+        db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TB_NAME_LOC_UPDATES);
         onCreate(db);
     }
 
-    public long insertLocDetails(UserLocationModel userLocationModel)
-    {
-        try
-        {
-            SQLiteDatabase db =this.getWritableDatabase();
-            ContentValues cv=new ContentValues();
-            cv.put(DBConstants.USERNAME,userLocationModel.getUserName());
+    public long insertLocDetails(UserLocationModel userLocationModel) {
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put(DBConstants.USERNAME, userLocationModel.getUserName());
             cv.put(DBConstants.EMAIL, userLocationModel.getEmailId());
             cv.put(DBConstants.MOB_NUM, userLocationModel.getMobNumber());
             cv.put(DBConstants.IMEI_NUM, userLocationModel.getImeiNumber());
@@ -61,23 +57,23 @@ public class SqLiteDBHelper extends SQLiteOpenHelper {
             cv.put(DBConstants.DATE, userLocationModel.getDate());
             cv.put(DBConstants.TIME, userLocationModel.getTime());
             Logger.addLog(" insert DBConstants.TB_NAME_LOC_UPDATES,DBConstants.ROW_ID,cv");
-            return db.insert(DBConstants.TB_NAME_LOC_UPDATES,DBConstants.ROW_ID,cv);
+            return db.insert(DBConstants.TB_NAME_LOC_UPDATES, DBConstants.ROW_ID, cv);
 
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             Logger.addLog(e.getMessage());
         }
 
         return 0;
     }
-    public ArrayList<UserLocationModel> getAllLocRecords(){
+
+    public ArrayList<UserLocationModel> getAllLocRecords() {
         String sql = "select * from " + DBConstants.TB_NAME_LOC_UPDATES;
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<UserLocationModel> storeLoc = new ArrayList<>();
         Cursor cursor = db.rawQuery(sql, null);
-        if(cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 UserLocationModel model = new UserLocationModel();
                 model.setUserName(cursor.getString(cursor.getColumnIndex(DBConstants.USERNAME)));
                 model.setEmailId(cursor.getString(cursor.getColumnIndex(DBConstants.EMAIL)));
@@ -92,18 +88,18 @@ public class SqLiteDBHelper extends SQLiteOpenHelper {
                 model.setTime(cursor.getString(cursor.getColumnIndex(DBConstants.TIME)));
 
                 storeLoc.add(model);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         Logger.addLog("select * from " + DBConstants.TB_NAME_LOC_UPDATES);
         cursor.close();
         return storeLoc;
     }
 
-    public void deleteAllRecords(){
+    public void deleteAllRecords() {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
-            db.execSQL("DELETE FROM "+DBConstants.TB_NAME_LOC_UPDATES); //delete all rows in a table
-            Logger.addLog("DELETE FROM "+DBConstants.TB_NAME_LOC_UPDATES);
+            db.execSQL("DELETE FROM " + DBConstants.TB_NAME_LOC_UPDATES); //delete all rows in a table
+            Logger.addLog("DELETE FROM " + DBConstants.TB_NAME_LOC_UPDATES);
             db.close();
         } catch (SQLException e) {
             e.printStackTrace();

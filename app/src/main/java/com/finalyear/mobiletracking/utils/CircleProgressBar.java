@@ -28,10 +28,11 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.widget.ImageView;
+
+import androidx.core.view.ViewCompat;
 
 /**
  * Private class created to work around issues with AnimationListeners being
@@ -40,6 +41,7 @@ import android.widget.ImageView;
  */
 public class CircleProgressBar extends ImageView {
 
+    public static final int DEFAULT_TEXT_SIZE = 9;
     private static final int KEY_SHADOW_COLOR = 0x1E000000;
     private static final int FILL_SHADOW_COLOR = 0x3D000000;
     // PX
@@ -47,13 +49,9 @@ public class CircleProgressBar extends ImageView {
     private static final float Y_OFFSET = 1.75f;
     private static final float SHADOW_RADIUS = 3.5f;
     private static final int SHADOW_ELEVATION = 4;
-
-
     private static final int DEFAULT_CIRCLE_BG_LIGHT = 0xFFFAFAFA;
     private static final int DEFAULT_CIRCLE_DIAMETER = 56;
     private static final int STROKE_WIDTH_LARGE = 3;
-    public static final int DEFAULT_TEXT_SIZE = 9;
-
     private Animation.AnimationListener mListener;
     private int mShadowRadius;
     private int mBackGroundColor;
@@ -93,19 +91,19 @@ public class CircleProgressBar extends ImageView {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        
-    	final float density = getContext().getResources().getDisplayMetrics().density;
-    	mBackGroundColor =DEFAULT_CIRCLE_BG_LIGHT;
+
+        final float density = getContext().getResources().getDisplayMetrics().density;
+        mBackGroundColor = DEFAULT_CIRCLE_BG_LIGHT;
         mProgressColor = DEFAULT_CIRCLE_BG_LIGHT;
         mColors = new int[]{mProgressColor};
 
-        mInnerRadius =-1;
+        mInnerRadius = -1;
 
         mProgressStokeWidth = (int) (STROKE_WIDTH_LARGE * density);
         mArrowWidth = -1;
         mArrowHeight = -1;
         mTextSize = (int) (DEFAULT_TEXT_SIZE * density);
-        mTextColor =  Color.BLACK;
+        mTextColor = Color.BLACK;
 
         mShowArrow = false;
         mCircleBackgroundEnabled = true;
@@ -117,7 +115,7 @@ public class CircleProgressBar extends ImageView {
         if (textVisible != 1) {
             mIfDrawText = true;
         }
-        
+
         mTextPaint = new Paint();
         mTextPaint.setStyle(Paint.Style.FILL);
         mTextPaint.setColor(mTextColor);
@@ -136,8 +134,7 @@ public class CircleProgressBar extends ImageView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (!elevationSupported()) {
-            setMeasuredDimension(getMeasuredWidth() + mShadowRadius * 2, getMeasuredHeight()
-                    + mShadowRadius * 2);
+            setMeasuredDimension(getMeasuredWidth() + mShadowRadius * 2, getMeasuredHeight() + mShadowRadius * 2);
         }
     }
 
@@ -161,8 +158,7 @@ public class CircleProgressBar extends ImageView {
                 OvalShape oval = new OvalShadow(mShadowRadius, mDiameter - mShadowRadius * 2);
                 mBgCircle = new ShapeDrawable(oval);
                 ViewCompat.setLayerType(this, ViewCompat.LAYER_TYPE_SOFTWARE, mBgCircle.getPaint());
-                mBgCircle.getPaint().setShadowLayer(mShadowRadius, shadowXOffset, shadowYOffset,
-                        KEY_SHADOW_COLOR);
+                mBgCircle.getPaint().setShadowLayer(mShadowRadius, shadowXOffset, shadowYOffset, KEY_SHADOW_COLOR);
                 final int padding = (int) mShadowRadius;
                 // set padding so the inner image sits correctly within the shadow.
                 setPadding(padding, padding, padding, padding);
@@ -172,11 +168,7 @@ public class CircleProgressBar extends ImageView {
         }
         mProgressDrawable.setBackgroundColor(mBackGroundColor);
         mProgressDrawable.setColorSchemeColors(mColors);
-        mProgressDrawable.setSizeParameters(mDiameter, mDiameter,
-                mInnerRadius <= 0 ? (mDiameter - mProgressStokeWidth * 2) / 4 : mInnerRadius,
-                mProgressStokeWidth,
-                mArrowWidth < 0 ? mProgressStokeWidth * 4 : mArrowWidth,
-                mArrowHeight < 0 ? mProgressStokeWidth * 2 : mArrowHeight);
+        mProgressDrawable.setSizeParameters(mDiameter, mDiameter, mInnerRadius <= 0 ? (mDiameter - mProgressStokeWidth * 2) / 4 : mInnerRadius, mProgressStokeWidth, mArrowWidth < 0 ? mProgressStokeWidth * 4 : mArrowWidth, mArrowHeight < 0 ? mProgressStokeWidth * 2 : mArrowHeight);
         if (isShowArrow()) {
             mProgressDrawable.showArrowOnFirstStart(true);
             mProgressDrawable.setArrowScale(1f);
@@ -185,7 +177,7 @@ public class CircleProgressBar extends ImageView {
         super.setImageDrawable(null);
         super.setImageDrawable(mProgressDrawable);
         mProgressDrawable.setAlpha(255);
-        if(getVisibility()==VISIBLE) {
+        if (getVisibility() == VISIBLE) {
             mProgressDrawable.start();
         }
     }
@@ -364,20 +356,17 @@ public class CircleProgressBar extends ImageView {
 
 
     private class OvalShadow extends OvalShape {
-        private RadialGradient mRadialGradient;
-        private int mShadowRadius;
-        private Paint mShadowPaint;
-        private int mCircleDiameter;
+        private final RadialGradient mRadialGradient;
+        private final int mShadowRadius;
+        private final Paint mShadowPaint;
+        private final int mCircleDiameter;
 
         public OvalShadow(int shadowRadius, int circleDiameter) {
             super();
             mShadowPaint = new Paint();
             mShadowRadius = shadowRadius;
             mCircleDiameter = circleDiameter;
-            mRadialGradient = new RadialGradient(mCircleDiameter / 2, mCircleDiameter / 2,
-                    mShadowRadius, new int[]{
-                    FILL_SHADOW_COLOR, Color.TRANSPARENT
-            }, null, Shader.TileMode.CLAMP);
+            mRadialGradient = new RadialGradient(mCircleDiameter / 2, mCircleDiameter / 2, mShadowRadius, new int[]{FILL_SHADOW_COLOR, Color.TRANSPARENT}, null, Shader.TileMode.CLAMP);
             mShadowPaint.setShader(mRadialGradient);
         }
 
@@ -385,8 +374,7 @@ public class CircleProgressBar extends ImageView {
         public void draw(Canvas canvas, Paint paint) {
             final int viewWidth = CircleProgressBar.this.getWidth();
             final int viewHeight = CircleProgressBar.this.getHeight();
-            canvas.drawCircle(viewWidth / 2, viewHeight / 2, (mCircleDiameter / 2 + mShadowRadius),
-                    mShadowPaint);
+            canvas.drawCircle(viewWidth / 2, viewHeight / 2, (mCircleDiameter / 2 + mShadowRadius), mShadowPaint);
             canvas.drawCircle(viewWidth / 2, viewHeight / 2, (mCircleDiameter / 2), paint);
         }
     }

@@ -40,5 +40,6 @@
     <string name="locations_not_found">Locations not found, Please try after some time.</string>
     <string name="title_activity_nearest_locations">Nearest Locations</string>
     <string name="title_activity_share_location">Share Location</string>
+    <string name="recent_updated_location">Recent Updated Location</string>
 
 </resources>

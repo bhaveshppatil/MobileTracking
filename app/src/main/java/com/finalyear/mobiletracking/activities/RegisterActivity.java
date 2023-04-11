@@ -1,24 +1,27 @@
 package com.finalyear.mobiletracking.activities;
 
+import static com.finalyear.mobiletracking.utils.IConstants.KEY_MOBILE_TRAKING;
+import static com.finalyear.mobiletracking.utils.IConstants.REGISTRATION_DETAILS;
+
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.finalyear.mobiletracking.R;
+import com.finalyear.mobiletracking.model.RegistrationModel;
 import com.finalyear.mobiletracking.utils.CommonUtils;
 import com.finalyear.mobiletracking.utils.CustomMultiColorProgressBar;
 import com.finalyear.mobiletracking.utils.DialogUtils;
 import com.finalyear.mobiletracking.utils.NetworkUtils;
 import com.finalyear.mobiletracking.utils.Utils;
-import com.finalyear.mobiletracking.model.RegistrationModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,28 +30,23 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import static com.finalyear.mobiletracking.utils.IConstants.KEY_MOBILE_TRAKING;
-import static com.finalyear.mobiletracking.utils.IConstants.REGISTRATION_DETAILS;
-
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-
-    public static void start(Context context) {
-        Intent starter = new Intent(context, RegisterActivity.class);
-        context.startActivity(starter);
-    }
-
+    ArrayList<RegistrationModel> registrationModelArrayList;
+    int childCount = 0;
     private EditText edt_password, edt_mob_no, edt_email, edt_name;
     private Button txt_login;
     private CardView cv_btn_sign_up;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mDatabaseReference;
     private CustomMultiColorProgressBar progressBar;
-    ArrayList<RegistrationModel> registrationModelArrayList;
-    private boolean isUserCreated=false;
-    int childCount = 0;
+    private boolean isUserCreated = false;
 
+    public static void start(Context context) {
+        Intent starter = new Intent(context, RegisterActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             progressBar.showProgressBar();
 
             checkDeviceIsAlreadyRegistered();
-          //  checkUserExist();
+            //  checkUserExist();
 
         } else {
             DialogUtils.showWarningDialog(this, getString(R.string.error__internet_unavailable));
@@ -147,8 +145,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void checkDeviceIsAlreadyRegistered() {
-         registrationModelArrayList = new ArrayList<>();
-         childCount =0;
+        registrationModelArrayList = new ArrayList<>();
+        childCount = 0;
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child(KEY_MOBILE_TRAKING).child(REGISTRATION_DETAILS);
 
 
@@ -160,17 +158,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     childCount++;
                     RegistrationModel post = postSnapshot.getValue(RegistrationModel.class);
 
-                   registrationModelArrayList.add(post);
+                    registrationModelArrayList.add(post);
 
                 }
-                if(childCount==snapshot.getChildrenCount()) {
+                if (childCount == snapshot.getChildrenCount()) {
                     checkUserExist();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-               progressBar.hideProgressBar();
+                progressBar.hideProgressBar();
             }
 
         });
@@ -186,27 +184,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onDataChange(DataSnapshot dataSnapshot) {
                 progressBar.hideProgressBar();
                 if (!dataSnapshot.exists()) {
-                    boolean isFound =false;
-                    if(registrationModelArrayList!=null){
+                    boolean isFound = false;
+                    if (registrationModelArrayList != null) {
                         for (int i = 0; i < registrationModelArrayList.size(); i++) {
-                          if(registrationModelArrayList.get(i).getImeiNumber().equalsIgnoreCase(Utils.getDeviceIMEINumber(RegisterActivity.this))){
-                              isFound =true;
-                             break;
-                          }
+                            if (registrationModelArrayList.get(i).getImeiNumber().equalsIgnoreCase(Utils.getDeviceId(RegisterActivity.this))) {
+                                isFound = true;
+                                break;
+                            }
                         }
 
-                        if(isFound){
+                        if (isFound) {
                             DialogUtils.showWarningDialog(RegisterActivity.this, getString(R.string.user_exist_with_device));
-                        }else{
+                        } else {
                             createNewUser();
                         }
-                    }else{
+                    } else {
                         createNewUser();
                     }
                     //create new user
 
                 } else {
-                    if(!isUserCreated) {
+                    if (!isUserCreated) {
                         DialogUtils.showWarningDialog(RegisterActivity.this, getString(R.string.user_exist));
                     }
 
@@ -231,10 +229,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 edt_email.getText().toString(),
                 edt_password.getText().toString(),
                 edt_mob_no.getText().toString(),
-                Utils.getDeviceIMEINumber(this), CommonUtils.getDeviceName(), CommonUtils.getAndroidOs(),CommonUtils.getCurrentDate());
+                Utils.getDeviceId(this), CommonUtils.getDeviceName(), CommonUtils.getAndroidOs(), CommonUtils.getCurrentDate());
         mDatabaseReference.setValue(model);
         DialogUtils.showSucessDialog(RegisterActivity.this, getString(R.string.registration_success), getString(R.string.signup));
-          isUserCreated= true;
+        isUserCreated = true;
 
     }
 

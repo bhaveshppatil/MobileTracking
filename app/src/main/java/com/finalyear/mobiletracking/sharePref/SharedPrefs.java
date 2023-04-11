@@ -2,6 +2,7 @@ package com.finalyear.mobiletracking.sharePref;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -14,8 +15,8 @@ public class SharedPrefs {
     private static final String SHARED_PREFS_NAME = "SharedPrefs";
 
     private static SharedPrefs sharedPrefs;
-    private SharedPreferences sharedPreferences;
-    private Map<String, Object> sharedPrefMap;
+    private final SharedPreferences sharedPreferences;
+    private final Map<String, Object> sharedPrefMap;
 
     private SharedPrefs(Context context) {
         sharedPrefMap = new HashMap<>();
@@ -87,9 +88,7 @@ public class SharedPrefs {
     }
 
     public void remove(String key) {
-        if (sharedPrefMap.containsKey(key)) {
-            sharedPrefMap.remove(key);
-        }
+        sharedPrefMap.remove(key);
 
         if (sharedPreferences.contains(key)) {
             SharedPreferences.Editor editor = sharedPreferences.edit();

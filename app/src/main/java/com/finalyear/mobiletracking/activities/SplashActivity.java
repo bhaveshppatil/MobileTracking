@@ -1,14 +1,15 @@
 package com.finalyear.mobiletracking.activities;
 
 
+import static com.finalyear.mobiletracking.utils.IConstants.SPLASH_DISPLAY_LENGTH;
+
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.finalyear.mobiletracking.R;
 import com.finalyear.mobiletracking.sharePref.SessionRepository;
-
-import static com.finalyear.mobiletracking.utils.IConstants.SPLASH_DISPLAY_LENGTH;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -34,9 +35,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkAlreadyLogin() {
-        if(!SessionRepository.getInstance().getLogoutSession()){
+        if (!SessionRepository.getInstance().getLogoutSession()) {
             LoginActivity.start(SplashActivity.this);
-        }else {
+        } else {
             DashboardActivity.start(this);
         }
     }

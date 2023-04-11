@@ -11,11 +11,10 @@ import com.finalyear.mobiletracking.R;
 
 
 public class CustomMultiColorProgressBar extends Dialog {
-    CircleProgressBar circle_multicolor_progressbar;
     public static CustomMultiColorProgressBar progressBarObj;
+    CircleProgressBar circle_multicolor_progressbar;
 
-    public CustomMultiColorProgressBar(Context context, String dialog_msg)
-    {
+    public CustomMultiColorProgressBar(Context context, String dialog_msg) {
         super(context);
         requestWindowFeature(1);
         setContentView(R.layout.dialog_custom_multicolor_progressbar);
@@ -28,11 +27,11 @@ public class CustomMultiColorProgressBar extends Dialog {
         ((TextView) findViewById(R.id.messg)).setText(dialog_msg);
     }
 
-    public static CustomMultiColorProgressBar getInstance(Context c, String dialog_msg ) {
+    public static CustomMultiColorProgressBar getInstance(Context c, String dialog_msg) {
         if (progressBarObj == null) {
-            progressBarObj = new CustomMultiColorProgressBar(c,dialog_msg);
+            progressBarObj = new CustomMultiColorProgressBar(c, dialog_msg);
             progressBarObj.show();
-        }else {
+        } else {
             progressBarObj.updateMessage(dialog_msg);
         }
         return progressBarObj;

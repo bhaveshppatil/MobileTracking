@@ -3,8 +3,6 @@ package com.finalyear.mobiletracking.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 public class UserLocationModel implements Parcelable {
     private String userName;
     private String emailId;

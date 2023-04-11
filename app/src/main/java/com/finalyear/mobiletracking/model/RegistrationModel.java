@@ -1,14 +1,14 @@
 package com.finalyear.mobiletracking.model;
 
 public class RegistrationModel {
-   private String userName;
-   private String emailId;
-   private String password;
-   private String mobNumber;
-   private String imeiNumber;
-   private String deviceName;
-   private String androidOs;
-   private String registrationDate;
+    private String userName;
+    private String emailId;
+    private String password;
+    private String mobNumber;
+    private String imeiNumber;
+    private String deviceName;
+    private String androidOs;
+    private String registrationDate;
 
     public RegistrationModel() {
     }

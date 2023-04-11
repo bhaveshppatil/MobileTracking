@@ -18,7 +18,7 @@ public class MyLocationListener implements LocationListener {
 
     @Override
     public void onLocationChanged(Location loc) {
-             String latitude = "Latitude: " + loc.getLatitude();
+        String latitude = "Latitude: " + loc.getLatitude();
         Log.v("MyLocationListener", latitude);
 
         /*------- To get city name from coordinates -------- */
@@ -26,25 +26,26 @@ public class MyLocationListener implements LocationListener {
         Geocoder gcd = new Geocoder(MobileTrackingApp.context, Locale.getDefault());
         List<Address> addresses;
         try {
-            addresses = gcd.getFromLocation(loc.getLatitude(),
-                    loc.getLongitude(), 1);
+            addresses = gcd.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
             if (addresses.size() > 0) {
                 System.out.println(addresses.get(0).getLocality());
                 cityName = addresses.get(0).getLocality();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
     @Override
-    public void onProviderDisabled(String provider) {}
+    public void onProviderDisabled(String provider) {
+    }
 
     @Override
-    public void onProviderEnabled(String provider) {}
+    public void onProviderEnabled(String provider) {
+    }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {}
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
 }

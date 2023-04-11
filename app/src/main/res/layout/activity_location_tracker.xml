@@ -46,7 +46,7 @@
             android:padding="@dimen/margin_8dp"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_size_14sp"
-            android:text="Recent Updated Location"
+            android:text="@string/recent_updated_location"
             android:layout_centerHorizontal="true"
             android:textStyle="bold"
             android:layout_width="wrap_content"
