@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "745503533988",
+    "firebase_url": "https://mobiletracking-4f56c-default-rtdb.firebaseio.com",
+    "project_id": "mobiletracking-4f56c",
+    "storage_bucket": "mobiletracking-4f56c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745503533988:android:af51658dbd6f8f44d2ef31",
+        "android_client_info": {
+          "package_name": "com.finalyear.mobiletracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745503533988-1ds1vdh84du0fc2im48cn4abouv8mt3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZIAm5iVPKedx2X2_werQQS4S48oijgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745503533988-1ds1vdh84du0fc2im48cn4abouv8mt3k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

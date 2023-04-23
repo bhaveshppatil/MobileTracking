@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.AdminActivity">
+
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_32dp"
+       android:src="@drawable/app_icon"
+        android:layout_width="80dp"
+        android:layout_height="@dimen/margin_80dp" />
+
+    <TextView
+        android:layout_below="@+id/iv_logo"
+        android:id="@+id/iv_admin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_8dp"
+        android:text="ADMIN"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_size_24sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:layout_marginTop="@dimen/margin_40dp"
+        android:text="Find the users mobile locations "
+        android:layout_marginStart="@dimen/margin_32dp"
+        android:layout_marginEnd="@dimen/margin_32dp"
+       android:layout_marginBottom="@dimen/margin_8dp"
+        android:id="@+id/iv_lb"
+        android:layout_below="@+id/iv_admin"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/edt_mob_no"
+        android:layout_below="@+id/iv_lb"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/margin_32dp"
+        android:layout_marginEnd="@dimen/margin_32dp"
+        android:background="@drawable/edittext_border_red"
+        android:padding="@dimen/margin_8dp"
+        android:layout_width="match_parent"
+        android:singleLine="true"
+        android:inputType="number"
+        android:hint="Enter Mobile Number"
+        android:maxLength="10"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:id="@+id/btn_find"
+        android:layout_marginStart="@dimen/margin_32dp"
+        android:layout_marginEnd="@dimen/margin_32dp"
+        android:layout_marginBottom="@dimen/margin_24dp"
+        android:background="@drawable/btn_background"
+        android:layout_alignParentBottom="true"
+        android:text="Find Locations"
+        android:textColor="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

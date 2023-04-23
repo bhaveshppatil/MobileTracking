@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Mobile Tracking</string>
+
+    <string name="error__internet_unavailable">Internet connection unavailable</string>
+    <string name="signup">SIGN UP</string>
+    <string name="signup_case">Sign Up</string>
+    <string name="name">Name</string>
+    <string name="email">Email Id</string>
+    <string name="mob_no">Mobile Number</string>
+    <string name="passw">Password</string>
+    <string name="allready_have_an_account">ALLREADY HAVE AN ACCOUNT?</string>
+    <string name="dont_hv_acount">DO NOT HAVE AN ACCOUNT?</string>
+    <string name="login">LOG IN!</string>
+    <string name="signupex">SIGN UP!</string>
+    <string name="login_case">Log In</string>
+    <string name="warn_mr_name">User Name is required.</string>
+    <string name="warn_mobile_no">Mobile Number is required.</string>
+    <string name="warn_email">E-mail Address is required.</string>
+    <string name="warn_passw">Password is required.</string>
+    <string name="warn_valid_email">Invalid E-mail address.</string>
+    <string name="warn_valid_mob_no">Invalid Mobile number</string>
+    <string name="warn_valid_paasw">Password should be more than 6 characters</string>
+    <string name="user_exist">User Already Registered, Please Login to proceed</string>
+    <string name="registration_success">User Created Successfully, Please Login</string>
+    <string name="user_not_exist">User Does not Exists</string>
+    <string name="invalidpassw">Invalid Password</string>
+    <string name="something_went_wrong">Something went wrong. Please try again later</string>
+    <string name="login_sucess">Login Successful</string>
+    <string name="welcome">Welcome,</string>
+    <string name="title_activity_current_location_maps">Current Locatiom</string>
+    <string name="locations_not_found">Locations not found, Please try after some time.</string>
+    <string name="user_exist_with_device">User Already Exist with this device, Please login with your credentials</string>
+    <string name="proceed">Proceed</string>
+
+</resources>

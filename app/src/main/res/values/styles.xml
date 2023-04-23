@@ -1,0 +1,50 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
+
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+    </style>
+
+    <style name="TextViewMedium">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="TextViewLarge">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">@dimen/text_size_24sp</item>
+    </style>
+
+
+    <style name="ButtonStyleNoBg">
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:minHeight">@dimen/margin_40dp</item>
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+
+    <style name="DialogAnimation_2">
+        <item name="android:windowEnterAnimation">@anim/up</item>
+        <item name="android:windowExitAnimation">@anim/down</item>
+    </style>
+</resources>
